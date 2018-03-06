@@ -1,0 +1,34 @@
+package com.dcsg.fulfillment.optimus;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.dcsg.fulfillment.optimus.models.OrderLine;
+import com.dcsg.fulfillment.optimus.models.OrderXML;
+
+@Service
+public class OrderService {
+
+	@Autowired
+	private OrderRepository orderRepository;
+	
+	public void addRoutingDetails(OrderXML orderXML) {
+			
+		List<OrderLine> orderLines = orderXML.getTXML().getMessage().getOrder().getOrderLines().getOrderLine();
+		
+		for (OrderLine orderLine : orderLines) {
+			
+			String itemName = orderLine.getItemID();
+			ItemAvailability itemAvailability = orderRepository.getItemAvailability(itemName);
+			
+			Integer storeGroupQuantity = itemAvailability.getStoreGroupQuantity();
+			Integer supplierGroupQuantity = itemAvailability.getSupplierGroupQuantity();
+
+			if (supplierGroupQuantity > storeGroupQuantity) {
+				orderLine.setReferenceField5("VDCX");
+			}						
+		}	
+	}
+}

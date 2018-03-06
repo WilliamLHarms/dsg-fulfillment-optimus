@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@//dkda3327:1521/DOMU
+    username: DOM
+    password: "PM#N0call"
+    driver-class-name: oracle.jdbc.OracleDriver
+
+server:
+  port: 5555
