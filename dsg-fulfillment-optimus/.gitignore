@@ -16,6 +16,7 @@
 *.gz
 *.iso
 *.jar
+*.jar.original
 *.rar
 *.tar
 *.zip
@@ -41,3 +42,6 @@ Thumbs.db
 #####################################################
 
 *.yml
+/.settings
+.springBeans
+/build
