@@ -4,6 +4,7 @@ public class ItemAvailability {
 
 	private Integer storeGroupQuantity;
 	private Integer supplierGroupQuantity;
+	private Integer dcGroupQuantity;
 
 	public Integer getStoreGroupQuantity() {
 		return storeGroupQuantity;
@@ -17,5 +18,12 @@ public class ItemAvailability {
 	}
 	public void setSupplierGroupQuantity(Integer supplierGroupQuantity) {
 		this.supplierGroupQuantity = supplierGroupQuantity;
+	}
+	
+	public Integer getDcGroupQuantity() {
+		return dcGroupQuantity;
+	}	
+	public void setDcGroupQuantity(Integer dcGroupQuantity) {
+		this.dcGroupQuantity = dcGroupQuantity;
 	}
 }

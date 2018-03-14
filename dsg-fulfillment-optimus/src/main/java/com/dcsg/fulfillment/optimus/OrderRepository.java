@@ -33,7 +33,7 @@ class ItemAvailabilityRowMapper implements RowMapper<ItemAvailability> {
 		ItemAvailability itemAvailability = new ItemAvailability();
 		itemAvailability.setStoreGroupQuantity(rs.getInt("store_group_quantity"));
 		itemAvailability.setSupplierGroupQuantity(rs.getInt("supplier_group_quantity"));
-
+		itemAvailability.setDcGroupQuantity(rs.getInt("dc_group_quantity"));
         return itemAvailability;
 	}
 }
