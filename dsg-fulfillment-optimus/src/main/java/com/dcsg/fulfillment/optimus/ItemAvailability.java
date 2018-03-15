@@ -2,28 +2,28 @@ package com.dcsg.fulfillment.optimus;
 
 public class ItemAvailability {
 
-	private Integer storeGroupQuantity;
-	private Integer supplierGroupQuantity;
-	private Integer dcGroupQuantity;
+	private int storeGroupQuantity;
+	private int supplierGroupQuantity;
+	private int dcGroupQuantity;
 
-	public Integer getStoreGroupQuantity() {
+	public int getStoreGroupQuantity() {
 		return storeGroupQuantity;
 	}	
-	public void setStoreGroupQuantity(Integer storeGroupQuantity) {
+	public void setStoreGroupQuantity(int storeGroupQuantity) {
 		this.storeGroupQuantity = storeGroupQuantity;
 	}
 	
-	public Integer getSupplierGroupQuantity() {
+	public int getSupplierGroupQuantity() {
 		return supplierGroupQuantity;
 	}
-	public void setSupplierGroupQuantity(Integer supplierGroupQuantity) {
+	public void setSupplierGroupQuantity(int supplierGroupQuantity) {
 		this.supplierGroupQuantity = supplierGroupQuantity;
 	}
 	
-	public Integer getDcGroupQuantity() {
+	public int getDcGroupQuantity() {
 		return dcGroupQuantity;
 	}	
-	public void setDcGroupQuantity(Integer dcGroupQuantity) {
+	public void setDcGroupQuantity(int dcGroupQuantity) {
 		this.dcGroupQuantity = dcGroupQuantity;
 	}
 }

@@ -29,9 +29,9 @@ public class OrderService {
 			String itemName = orderLine.getItemID();
 			ItemAvailability itemAvailability = orderRepository.getItemAvailability(itemName);
 
-			Integer storeGroupQuantity = itemAvailability.getStoreGroupQuantity();
-			Integer supplierGroupQuantity = itemAvailability.getSupplierGroupQuantity();
-			Integer dcGroupQuantity = itemAvailability.getDcGroupQuantity();
+			int storeGroupQuantity = itemAvailability.getStoreGroupQuantity();
+			int supplierGroupQuantity = itemAvailability.getSupplierGroupQuantity();
+			int dcGroupQuantity = itemAvailability.getDcGroupQuantity();
 			
 			if (checkIfVdcExclusiveEnabled) {
 				if (supplierGroupQuantity > storeGroupQuantity) {
