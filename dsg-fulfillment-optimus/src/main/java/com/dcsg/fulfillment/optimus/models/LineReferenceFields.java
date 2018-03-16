@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "ReferenceNumber4",
     "ReferenceNumber5"
 })
-public class ReferenceFields {
+public class LineReferenceFields {
 
     @JsonProperty("ReferenceField1")
     private String referenceField1;

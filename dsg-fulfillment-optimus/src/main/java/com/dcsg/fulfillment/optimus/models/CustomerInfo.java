@@ -11,7 +11,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "CustomerFirstName",
     "CustomerLastName",
     "CustomerPhone",
-    "CustomerEmail"
+    "CustomerEmail",
+    "CustomerUserId",
+    "CustomerType"
 })
 public class CustomerInfo {
 
@@ -25,6 +27,10 @@ public class CustomerInfo {
     private String customerPhone;
     @JsonProperty("CustomerEmail")
     private String customerEmail;
+    @JsonProperty("CustomerUserId")
+    private String customerUserId;
+    @JsonProperty("CustomerType")
+    private String customerType;
 
     @JsonProperty("CustomerId")
     public String getCustomerId() {
@@ -74,6 +80,26 @@ public class CustomerInfo {
     @JsonProperty("CustomerEmail")
     public void setCustomerEmail(String customerEmail) {
         this.customerEmail = customerEmail;
+    }
+
+    @JsonProperty("CustomerUserId")
+    public String getCustomerUserId() {
+        return customerUserId;
+    }
+
+    @JsonProperty("CustomerUserId")
+    public void setCustomerUserId(String customerUserId) {
+        this.customerUserId = customerUserId;
+    }
+
+    @JsonProperty("CustomerType")
+    public String getCustomerType() {
+        return customerType;
+    }
+
+    @JsonProperty("CustomerType")
+    public void setCustomerType(String customerType) {
+        this.customerType = customerType;
     }
 
 }

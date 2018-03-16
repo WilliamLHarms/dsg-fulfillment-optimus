@@ -8,12 +8,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "@version",
+    "@encoding",
     "tXML"
 })
 public class OrderXML {
 
     @JsonProperty("@version")
     private String version;
+    @JsonProperty("@encoding")
+    private String encoding;
     @JsonProperty("tXML")
     private TXML tXML;
 
@@ -25,6 +28,16 @@ public class OrderXML {
     @JsonProperty("@version")
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    @JsonProperty("@encoding")
+    public String getEncoding() {
+        return encoding;
+    }
+
+    @JsonProperty("@encoding")
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
     }
 
     @JsonProperty("tXML")

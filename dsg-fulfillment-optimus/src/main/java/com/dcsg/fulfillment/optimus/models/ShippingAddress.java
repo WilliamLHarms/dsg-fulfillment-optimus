@@ -16,7 +16,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "ShipToPostalCode",
     "ShipToCountry",
     "ShipToPhone",
-    "ShipToEmail"
+    "ShipToCounty",
+    "ShipToEmail",
+    "ShipToFax",
+    "ShippingAddressVerified"
 })
 public class ShippingAddress {
 
@@ -38,8 +41,14 @@ public class ShippingAddress {
     private String shipToCountry;
     @JsonProperty("ShipToPhone")
     private String shipToPhone;
+    @JsonProperty("ShipToCounty")
+    private String shipToCounty;
     @JsonProperty("ShipToEmail")
     private String shipToEmail;
+    @JsonProperty("ShipToFax")
+    private String shipToFax;
+    @JsonProperty("ShippingAddressVerified")
+    private String shippingAddressVerified;
 
     @JsonProperty("ShipToFirstName")
     public String getShipToFirstName() {
@@ -131,6 +140,16 @@ public class ShippingAddress {
         this.shipToPhone = shipToPhone;
     }
 
+    @JsonProperty("ShipToCounty")
+    public String getShipToCounty() {
+        return shipToCounty;
+    }
+
+    @JsonProperty("ShipToCounty")
+    public void setShipToCounty(String shipToCounty) {
+        this.shipToCounty = shipToCounty;
+    }
+
     @JsonProperty("ShipToEmail")
     public String getShipToEmail() {
         return shipToEmail;
@@ -139,6 +158,26 @@ public class ShippingAddress {
     @JsonProperty("ShipToEmail")
     public void setShipToEmail(String shipToEmail) {
         this.shipToEmail = shipToEmail;
+    }
+
+    @JsonProperty("ShipToFax")
+    public String getShipToFax() {
+        return shipToFax;
+    }
+
+    @JsonProperty("ShipToFax")
+    public void setShipToFax(String shipToFax) {
+        this.shipToFax = shipToFax;
+    }
+
+    @JsonProperty("ShippingAddressVerified")
+    public String getShippingAddressVerified() {
+        return shippingAddressVerified;
+    }
+
+    @JsonProperty("ShippingAddressVerified")
+    public void setShippingAddressVerified(String shippingAddressVerified) {
+        this.shippingAddressVerified = shippingAddressVerified;
     }
 
 }

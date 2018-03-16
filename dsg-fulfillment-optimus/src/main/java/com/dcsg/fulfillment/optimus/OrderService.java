@@ -35,12 +35,12 @@ public class OrderService {
 			
 			if (checkIfVdcExclusiveEnabled) {
 				if (supplierGroupQuantity > storeGroupQuantity) {
-					orderLine.setReferenceField5("VDCX");
+					orderLine.getLineReferenceFields().setReferenceField5("VDCX");
 				}
 			}
 			if (checkIfDcExclusiveEnabled) {
 				if (dcGroupQuantity > storeGroupQuantity) {
-					orderLine.setReferenceField5("DCX");
+					orderLine.getLineReferenceFields().setReferenceField5("DCX");
 				}
 			}		
 		}		

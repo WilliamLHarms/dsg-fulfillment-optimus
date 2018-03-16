@@ -8,7 +8,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "OrderedQty",
-    "OrderedQtyUOM"
+    "OrderedQtyUOM",
+    "OriginalOrderQty",
+    "AllocatedQuantity",
+    "ReleasedQty",
+    "CancelledQty"
 })
 public class Quantity {
 
@@ -16,6 +20,14 @@ public class Quantity {
     private String orderedQty;
     @JsonProperty("OrderedQtyUOM")
     private String orderedQtyUOM;
+    @JsonProperty("OriginalOrderQty")
+    private String originalOrderQty;
+    @JsonProperty("AllocatedQuantity")
+    private String allocatedQuantity;
+    @JsonProperty("ReleasedQty")
+    private String releasedQty;
+    @JsonProperty("CancelledQty")
+    private String cancelledQty;
 
     @JsonProperty("OrderedQty")
     public String getOrderedQty() {
@@ -35,6 +47,46 @@ public class Quantity {
     @JsonProperty("OrderedQtyUOM")
     public void setOrderedQtyUOM(String orderedQtyUOM) {
         this.orderedQtyUOM = orderedQtyUOM;
+    }
+
+    @JsonProperty("OriginalOrderQty")
+    public String getOriginalOrderQty() {
+        return originalOrderQty;
+    }
+
+    @JsonProperty("OriginalOrderQty")
+    public void setOriginalOrderQty(String originalOrderQty) {
+        this.originalOrderQty = originalOrderQty;
+    }
+
+    @JsonProperty("AllocatedQuantity")
+    public String getAllocatedQuantity() {
+        return allocatedQuantity;
+    }
+
+    @JsonProperty("AllocatedQuantity")
+    public void setAllocatedQuantity(String allocatedQuantity) {
+        this.allocatedQuantity = allocatedQuantity;
+    }
+
+    @JsonProperty("ReleasedQty")
+    public String getReleasedQty() {
+        return releasedQty;
+    }
+
+    @JsonProperty("ReleasedQty")
+    public void setReleasedQty(String releasedQty) {
+        this.releasedQty = releasedQty;
+    }
+
+    @JsonProperty("CancelledQty")
+    public String getCancelledQty() {
+        return cancelledQty;
+    }
+
+    @JsonProperty("CancelledQty")
+    public void setCancelledQty(String cancelledQty) {
+        this.cancelledQty = cancelledQty;
     }
 
 }
