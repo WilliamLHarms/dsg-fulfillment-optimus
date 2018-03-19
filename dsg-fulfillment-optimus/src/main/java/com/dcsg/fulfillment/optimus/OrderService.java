@@ -52,7 +52,7 @@ public class OrderService {
 			}
 		}
 
-		return objectMapper.writeValueAsString(orderNode);
+		return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(orderNode);
 	}
 
 	
