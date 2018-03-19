@@ -1,14 +1,14 @@
 package com.dcsg.fulfillment.optimus;
 
-import java.util.List;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.dcsg.fulfillment.optimus.models.LineReferenceFields;
-import com.dcsg.fulfillment.optimus.models.OrderLine;
-import com.dcsg.fulfillment.optimus.models.OrderXML;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Service
 public class OrderService {
@@ -20,38 +20,57 @@ public class OrderService {
 	private boolean checkIfVdcExclusiveEnabled;
 	@Value("${optimus.add-routing-detail.check-if-dc-exclusive.enabled}")
 	private boolean checkIfDcExclusiveEnabled;
-	
-	
-	public void addRoutingDetails(OrderXML orderXML) {
-			
-		List<OrderLine> orderLines = orderXML.getTXML().getMessage().getOrder().getOrderLines().getOrderLine();	
-		
-		for (OrderLine orderLine : orderLines) {
-			String itemName = orderLine.getItemID();
+
+	public String addRoutingDetails(String orderString) throws IOException {
+
+		ObjectMapper objectMapper = null;
+		JsonNode orderNode = null;
+
+		objectMapper = new ObjectMapper();
+		orderNode = objectMapper.readTree(orderString);
+		JsonNode orderLineNodes = orderNode.get("tXML").get("Message").get("Order").get("OrderLines").get("OrderLine");
+
+		// For each OrderLine
+		for (JsonNode orderLineNode : orderLineNodes) {
+
+			//Get ItemName, get item availability
+			String itemName = orderLineNode.get("ItemID").textValue();
 			ItemAvailability itemAvailability = orderRepository.getItemAvailability(itemName);
 
-			int storeGroupQuantity = itemAvailability.getStoreGroupQuantity();
-			int supplierGroupQuantity = itemAvailability.getSupplierGroupQuantity();
-			int dcGroupQuantity = itemAvailability.getDcGroupQuantity();
-			
+			// VDC exclusive check
 			if (checkIfVdcExclusiveEnabled) {
-				if (supplierGroupQuantity > storeGroupQuantity) {
-					if (orderLine.getLineReferenceFields() == null) {
-						orderLine.setLineReferenceFields(new LineReferenceFields());
-					}	
-					orderLine.getLineReferenceFields().setReferenceField5("VDCX");
+				if (itemAvailability.getSupplierGroupQuantity() > itemAvailability.getStoreGroupQuantity()) {
+					addOrderLineReferenceField(orderLineNode, "ReferenceField5", "VDCX");
 				}
 			}
-			
-			if (checkIfDcExclusiveEnabled) {
-				if (dcGroupQuantity > storeGroupQuantity) {
-					if (orderLine.getLineReferenceFields() == null) {
-						orderLine.setLineReferenceFields(new LineReferenceFields());
-					}			
-					orderLine.getLineReferenceFields().setReferenceField5("DCX");
-				}
-			}		
-		}		
-	}	
-}
 
+			// DC exclusive check
+			if (checkIfDcExclusiveEnabled) {
+				if (itemAvailability.getDcGroupQuantity() > itemAvailability.getStoreGroupQuantity()) {
+					addOrderLineReferenceField(orderLineNode, "ReferenceField5", "DCX");
+				}
+			}
+		}
+
+		return objectMapper.writeValueAsString(orderNode);
+	}
+
+	
+	private void addOrderLineReferenceField(JsonNode orderLineNode, String refFieldName, String refFieldValue) {
+		// Get ReferenceFieldList
+		JsonNode refFieldListNode = orderLineNode.get("ReferenceFieldList");
+
+		// If ReferenceFieldList is null, create new ReferenceFieldList
+		if (refFieldListNode == null) {
+			ObjectMapper mapper = new ObjectMapper();
+			refFieldListNode = mapper.createObjectNode();
+		}
+
+		// Add ReferenceField to ReferenceFieldList
+		((ObjectNode) refFieldListNode).put(refFieldName, refFieldValue);
+
+		// Add ReferenceFieldList to OrderLine
+		((ObjectNode) orderLineNode).set("ReferenceFieldList", refFieldListNode);
+	}
+
+}

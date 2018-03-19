@@ -1,5 +1,7 @@
 package com.dcsg.fulfillment.optimus;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -8,8 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.dcsg.fulfillment.optimus.models.OrderXML;
 
 
 @RestController
@@ -24,12 +24,12 @@ public class OrderController {
 	
 	
 	@PostMapping(path="/addRoutingDetails")
-	public ResponseEntity<OrderXML> addRoutingDetails(@RequestBody OrderXML orderXML) {
+	public ResponseEntity<String> addRoutingDetails(@RequestBody String orderString) throws IOException {
 		
 		if (addRoutingDetailsEnabled) {		
-			orderService.addRoutingDetails(orderXML);
+			orderString = orderService.addRoutingDetails(orderString);
 		}
-
-		return new ResponseEntity<OrderXML>(orderXML, HttpStatus.OK);
+		return new ResponseEntity<String>(orderString, HttpStatus.OK);
 	}
+	
 }
