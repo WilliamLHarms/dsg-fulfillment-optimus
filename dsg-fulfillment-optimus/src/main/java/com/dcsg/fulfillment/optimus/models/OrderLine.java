@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "MerchType",
     "IsGift",
     "LineTotal",
+    "Canceled",
     "OnHold",
     "SendCustomerEmail",
     "DOSplitCategory",
@@ -71,6 +72,8 @@ public class OrderLine {
     private String isGift;
     @JsonProperty("LineTotal")
     private String lineTotal;
+    @JsonProperty("Canceled")
+    private String canceled;
     @JsonProperty("OnHold")
     private String onHold;
     @JsonProperty("SendCustomerEmail")
@@ -180,9 +183,6 @@ public class OrderLine {
 
     @JsonProperty("LineReferenceFields")
     public LineReferenceFields getLineReferenceFields() {
-    	if (lineReferenceFields == null) {
-    		this.lineReferenceFields = new LineReferenceFields();
-    	}
         return lineReferenceFields;
     }
 
@@ -259,6 +259,16 @@ public class OrderLine {
     @JsonProperty("LineTotal")
     public void setLineTotal(String lineTotal) {
         this.lineTotal = lineTotal;
+    }
+    
+    @JsonProperty("Canceled")
+    public String getCanceled() {
+        return canceled;
+    }
+
+    @JsonProperty("Canceled")
+    public void setCanceled(String canceled) {
+        this.canceled = canceled;
     }
 
     @JsonProperty("OnHold")

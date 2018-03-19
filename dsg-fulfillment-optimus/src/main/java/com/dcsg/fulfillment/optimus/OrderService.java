@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.dcsg.fulfillment.optimus.models.LineReferenceFields;
 import com.dcsg.fulfillment.optimus.models.OrderLine;
 import com.dcsg.fulfillment.optimus.models.OrderXML;
 
@@ -35,11 +36,18 @@ public class OrderService {
 			
 			if (checkIfVdcExclusiveEnabled) {
 				if (supplierGroupQuantity > storeGroupQuantity) {
+					if (orderLine.getLineReferenceFields() == null) {
+						orderLine.setLineReferenceFields(new LineReferenceFields());
+					}	
 					orderLine.getLineReferenceFields().setReferenceField5("VDCX");
 				}
 			}
+			
 			if (checkIfDcExclusiveEnabled) {
 				if (dcGroupQuantity > storeGroupQuantity) {
+					if (orderLine.getLineReferenceFields() == null) {
+						orderLine.setLineReferenceFields(new LineReferenceFields());
+					}			
 					orderLine.getLineReferenceFields().setReferenceField5("DCX");
 				}
 			}		

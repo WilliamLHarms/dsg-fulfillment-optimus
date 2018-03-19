@@ -13,12 +13,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "OrderTotal",
     "OrderCurrency",
     "Confirmed",
+    "Canceled",
     "OrderType",
+    "LastUpdatedDTTM",
     "OrderStatus",
     "CustomerInfo",
     "PaymentDetails",
     "Notes",
     "ReferenceFields",
+    "CustomFieldList",
     "OrderLines",
     "ExternalOrderNumber",
     "EnteredBy",
@@ -51,8 +54,12 @@ public class Order {
     private String orderCurrency;
     @JsonProperty("Confirmed")
     private String confirmed;
+    @JsonProperty("Canceled")
+    private String canceled;
     @JsonProperty("OrderType")
     private String orderType;
+    @JsonProperty("LastUpdatedDTTM")
+    private String lastUpdatedDttm;
     @JsonProperty("OrderStatus")
     private String orderStatus;
     @JsonProperty("CustomerInfo")
@@ -63,6 +70,8 @@ public class Order {
     private Notes notes;
     @JsonProperty("ReferenceFields")
     private ReferenceFields referenceFields;
+    @JsonProperty("CustomFieldList")
+    private CustomFieldList customFieldList;
     @JsonProperty("OrderLines")
     private OrderLines orderLines;
     @JsonProperty("ExternalOrderNumber")
@@ -157,6 +166,16 @@ public class Order {
     public void setConfirmed(String confirmed) {
         this.confirmed = confirmed;
     }
+    
+    @JsonProperty("Canceled")
+    public String getCanceled() {
+        return canceled;
+    }
+
+    @JsonProperty("Canceled")
+    public void setCanceled(String canceled) {
+        this.canceled = canceled;
+    }
 
     @JsonProperty("OrderType")
     public String getOrderType() {
@@ -167,7 +186,17 @@ public class Order {
     public void setOrderType(String orderType) {
         this.orderType = orderType;
     }
+    
+    @JsonProperty("LastUpdatedDTTM")
+    public String lastUpdatedDttm() {
+        return lastUpdatedDttm;
+    }
 
+    @JsonProperty("LastUpdatedDTTM")
+    public void setLastUpdatedDttm(String lastUpdatedDttm) {
+        this.lastUpdatedDttm = lastUpdatedDttm;
+    }
+    
     @JsonProperty("OrderStatus")
     public String getOrderStatus() {
         return orderStatus;
@@ -216,6 +245,16 @@ public class Order {
     @JsonProperty("ReferenceFields")
     public void setReferenceFields(ReferenceFields referenceFields) {
         this.referenceFields = referenceFields;
+    }
+    
+    @JsonProperty("CustomFieldList")
+    public CustomFieldList getCustomFieldList() {
+        return customFieldList;
+    }
+
+    @JsonProperty("CustomFieldList")
+    public void setCustomFieldList(CustomFieldList customFieldList) {
+        this.customFieldList = customFieldList;
     }
 
     @JsonProperty("OrderLines")

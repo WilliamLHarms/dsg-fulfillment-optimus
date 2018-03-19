@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "ShipVia",
+    "DeliveryOption",
     "ShippingAddress",
     "MustDeliverBy",
     "PromisedDeliveryBy",
@@ -23,6 +24,8 @@ public class ShippingInfo {
 
     @JsonProperty("ShipVia")
     private String shipVia;
+    @JsonProperty("DeliveryOption")
+    private String deliveryOption;
     @JsonProperty("ShippingAddress")
     private ShippingAddress shippingAddress;
     @JsonProperty("MustDeliverBy")
@@ -52,6 +55,16 @@ public class ShippingInfo {
     @JsonProperty("ShipVia")
     public void setShipVia(String shipVia) {
         this.shipVia = shipVia;
+    }
+    
+    @JsonProperty("DeliveryOption")
+    public String getDeliveryOption() {
+        return deliveryOption;
+    }
+
+    @JsonProperty("DeliveryOption")
+    public void setDeliveryOption(String deliveryOption) {
+        this.deliveryOption = deliveryOption;
     }
 
     @JsonProperty("ShippingAddress")
