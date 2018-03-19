@@ -23,17 +23,12 @@ public class OrderService {
 
 	public String addRoutingDetails(String orderString) throws IOException {
 
-		ObjectMapper objectMapper = null;
-		JsonNode orderNode = null;
-
-		objectMapper = new ObjectMapper();
-		orderNode = objectMapper.readTree(orderString);
+		ObjectMapper objectMapper = new ObjectMapper();
+		JsonNode orderNode = objectMapper.readTree(orderString);
 		JsonNode orderLineNodes = orderNode.get("tXML").get("Message").get("Order").get("OrderLines").get("OrderLine");
 
-		// For each OrderLine
 		for (JsonNode orderLineNode : orderLineNodes) {
 
-			//Get ItemName, get item availability
 			String itemName = orderLineNode.get("ItemID").textValue();
 			ItemAvailability itemAvailability = orderRepository.getItemAvailability(itemName);
 
@@ -57,19 +52,16 @@ public class OrderService {
 
 	
 	private void addOrderLineReferenceField(JsonNode orderLineNode, String refFieldName, String refFieldValue) {
-		// Get ReferenceFieldList
+
 		JsonNode refFieldListNode = orderLineNode.get("ReferenceFieldList");
 
-		// If ReferenceFieldList is null, create new ReferenceFieldList
 		if (refFieldListNode == null) {
 			ObjectMapper mapper = new ObjectMapper();
 			refFieldListNode = mapper.createObjectNode();
 		}
-
-		// Add ReferenceField to ReferenceFieldList
-		((ObjectNode) refFieldListNode).put(refFieldName, refFieldValue);
-
-		// Add ReferenceFieldList to OrderLine
+		
+		// Add ReferenceField name and value, then add to ReferenceFieldList
+		((ObjectNode) refFieldListNode).put(refFieldName, refFieldValue);		
 		((ObjectNode) orderLineNode).set("ReferenceFieldList", refFieldListNode);
 	}
 
