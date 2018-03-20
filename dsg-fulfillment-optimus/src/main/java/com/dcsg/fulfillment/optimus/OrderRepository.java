@@ -28,9 +28,8 @@ public class OrderRepository {
 			return itemAvailability;
 
 		} catch (EmptyResultDataAccessException e) {
-			return null;
+			throw new NullPointerException("Inventory availability not found for SKU " + itemName);
 		}
-
 	}
 }
 

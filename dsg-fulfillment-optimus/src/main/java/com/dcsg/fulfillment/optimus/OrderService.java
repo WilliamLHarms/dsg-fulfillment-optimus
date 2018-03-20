@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Service
@@ -24,6 +25,7 @@ public class OrderService {
 	public String addRoutingDetails(String orderString) throws IOException {
 
 		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 		JsonNode orderNode = objectMapper.readTree(orderString);
 		JsonNode orderLineNodes = orderNode.get("tXML").get("Message").get("Order").get("OrderLines").get("OrderLine");
 
@@ -31,10 +33,6 @@ public class OrderService {
 
 			String itemName = orderLineNode.get("ItemID").textValue();
 			ItemAvailability itemAvailability = orderRepository.getItemAvailability(itemName);
-
-			if (itemAvailability == null) {
-				throw new NullPointerException("Inventory availability not found for SKU " + itemName);
-			}
 
 			// VDC exclusive check
 			if (checkIfVdcExclusiveEnabled) {
@@ -51,7 +49,7 @@ public class OrderService {
 			}
 		}
 
-		return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(orderNode);
+		return objectMapper.writeValueAsString(orderNode);
 	}
 
 	private void addOrderLineReferenceField(JsonNode orderLineNode, String refFieldName, String refFieldValue) {
