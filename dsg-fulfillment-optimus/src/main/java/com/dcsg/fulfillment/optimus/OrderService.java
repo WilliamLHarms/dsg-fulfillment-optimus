@@ -35,14 +35,14 @@ public class OrderService {
 			ItemAvailability itemAvailability = orderRepository.getItemAvailability(itemName);
 
 			// VDC exclusive check
-			if (checkIfVdcExclusiveEnabled) {
+			if (checkIfVdcExclusiveEnabled && itemAvailability != null) {
 				if (itemAvailability.getSupplierGroupQuantity() > itemAvailability.getStoreGroupQuantity()) {
 					addOrderLineReferenceField(orderLineNode, "ReferenceField5", "VDCX");
 				}
 			}
 
 			// DC exclusive check
-			if (checkIfDcExclusiveEnabled) {
+			if (checkIfDcExclusiveEnabled && itemAvailability != null) {
 				if (itemAvailability.getDcGroupQuantity() > itemAvailability.getStoreGroupQuantity()) {
 					addOrderLineReferenceField(orderLineNode, "ReferenceField5", "DCX");
 				}
