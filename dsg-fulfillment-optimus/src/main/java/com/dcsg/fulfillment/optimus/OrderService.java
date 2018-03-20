@@ -31,9 +31,9 @@ public class OrderService {
 
 			String itemName = orderLineNode.get("ItemID").textValue();
 			ItemAvailability itemAvailability = orderRepository.getItemAvailability(itemName);
-			
+
 			if (itemAvailability == null) {
-				throw new NullPointerException("Inventory availability record not found for SKU " + itemName);
+				throw new NullPointerException("Inventory availability not found for SKU " + itemName);
 			}
 
 			// VDC exclusive check
@@ -54,7 +54,6 @@ public class OrderService {
 		return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(orderNode);
 	}
 
-	
 	private void addOrderLineReferenceField(JsonNode orderLineNode, String refFieldName, String refFieldValue) {
 
 		JsonNode refFieldListNode = orderLineNode.get("ReferenceFieldList");
@@ -63,9 +62,9 @@ public class OrderService {
 			ObjectMapper mapper = new ObjectMapper();
 			refFieldListNode = mapper.createObjectNode();
 		}
-		
+
 		// Add ReferenceField name and value, then add to ReferenceFieldList
-		((ObjectNode) refFieldListNode).put(refFieldName, refFieldValue);		
+		((ObjectNode) refFieldListNode).put(refFieldName, refFieldValue);
 		((ObjectNode) orderLineNode).set("ReferenceFieldList", refFieldListNode);
 	}
 

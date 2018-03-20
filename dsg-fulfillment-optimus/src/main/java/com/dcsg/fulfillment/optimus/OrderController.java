@@ -11,25 +11,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("/optimus")
 public class OrderController {
-	
+
 	@Autowired
 	private OrderService orderService;
-	
+
 	@Value("${optimus.add-routing-detail.enabled}")
 	private boolean addRoutingDetailsEnabled;
-	
-	
-	@PostMapping(path="/addRoutingDetails")
+
+	@PostMapping(path = "/addRoutingDetails")
 	public ResponseEntity<String> addRoutingDetails(@RequestBody String orderString) throws IOException {
-		
-		if (addRoutingDetailsEnabled) {		
+
+		if (addRoutingDetailsEnabled) {
 			orderString = orderService.addRoutingDetails(orderString);
 		}
 		return new ResponseEntity<String>(orderString, HttpStatus.OK);
 	}
-	
 }
