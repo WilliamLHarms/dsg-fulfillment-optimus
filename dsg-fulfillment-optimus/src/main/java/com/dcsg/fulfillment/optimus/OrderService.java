@@ -31,6 +31,10 @@ public class OrderService {
 
 			String itemName = orderLineNode.get("ItemID").textValue();
 			ItemAvailability itemAvailability = orderRepository.getItemAvailability(itemName);
+			
+			if (itemAvailability == null) {
+				throw new NullPointerException("Inventory availability record not found for SKU " + itemName);
+			}
 
 			// VDC exclusive check
 			if (checkIfVdcExclusiveEnabled) {

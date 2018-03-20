@@ -3,6 +3,7 @@ package com.dcsg.fulfillment.optimus;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -20,8 +21,16 @@ public class OrderRepository {
 						"join item_cbo ic on ia6.item_id = ic.item_id \n" + 
 						"where item_name = ?";
 		
-		return jdbcTemplate.queryForObject(sql, 
-				new Object[]{itemName}, new ItemAvailabilityRowMapper());
+		try {
+			ItemAvailability itemAvailability = jdbcTemplate.queryForObject(sql, 
+					new Object[]{itemName}, new ItemAvailabilityRowMapper());
+			
+			return itemAvailability;
+		
+		}catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+
 	}
 }
 
