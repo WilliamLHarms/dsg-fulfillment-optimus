@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Service
@@ -25,7 +24,6 @@ public class OrderService {
 	public String addRoutingDetails(String orderString) throws IOException {
 
 		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 		JsonNode orderNode = objectMapper.readTree(orderString);
 		JsonNode orderLineNodes = orderNode.get("tXML").get("Message").get("Order").get("OrderLines").get("OrderLine");
 
@@ -34,26 +32,29 @@ public class OrderService {
 			String itemName = orderLineNode.get("ItemID").textValue();
 			ItemAvailability itemAvailability = orderRepository.getItemAvailability(itemName);
 
+			if (itemAvailability == null) {
+				continue;
+			}
+
 			// VDC exclusive check
-			if (checkIfVdcExclusiveEnabled && itemAvailability != null) {
-				if (itemAvailability.getSupplierGroupQuantity() > itemAvailability.getStoreGroupQuantity()) {
+			if (checkIfVdcExclusiveEnabled) {
+				if (isVdcExclusive(itemAvailability)) {
 					addOrderLineReferenceField(orderLineNode, "ReferenceField5", "VDCX");
 				}
 			}
 
 			// DC exclusive check
-			if (checkIfDcExclusiveEnabled && itemAvailability != null) {
-				if (itemAvailability.getDcGroupQuantity() > itemAvailability.getStoreGroupQuantity()) {
+			if (checkIfDcExclusiveEnabled) {
+				if (isDcExclusive(itemAvailability)) {
 					addOrderLineReferenceField(orderLineNode, "ReferenceField5", "DCX");
 				}
 			}
 		}
 
-		return objectMapper.writeValueAsString(orderNode);
+		return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(orderNode);
 	}
 
 	private void addOrderLineReferenceField(JsonNode orderLineNode, String refFieldName, String refFieldValue) {
-
 		JsonNode refFieldListNode = orderLineNode.get("ReferenceFieldList");
 
 		if (refFieldListNode == null) {
@@ -61,9 +62,27 @@ public class OrderService {
 			refFieldListNode = mapper.createObjectNode();
 		}
 
-		// Add ReferenceField name and value, then add to ReferenceFieldList
 		((ObjectNode) refFieldListNode).put(refFieldName, refFieldValue);
 		((ObjectNode) orderLineNode).set("ReferenceFieldList", refFieldListNode);
 	}
 
+	private boolean isVdcExclusive(ItemAvailability itemAvailability) {
+		int supplierGroupQuantity = itemAvailability.getSupplierGroupQuantity();
+		int storeGroupQuantity = itemAvailability.getStoreGroupQuantity();
+
+		if (supplierGroupQuantity > storeGroupQuantity) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isDcExclusive(ItemAvailability itemAvailability) {
+		int dcGroupQuantity = itemAvailability.getDcGroupQuantity();
+		int storeGroupQuantity = itemAvailability.getStoreGroupQuantity();
+
+		if (dcGroupQuantity > storeGroupQuantity) {
+			return true;
+		}
+		return false;
+	}
 }
