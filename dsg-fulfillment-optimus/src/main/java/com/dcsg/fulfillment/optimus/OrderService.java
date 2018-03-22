@@ -21,6 +21,7 @@ public class OrderService {
 	@Value("${optimus.add-routing-detail.check-if-dc-exclusive.enabled}")
 	private boolean checkIfDcExclusiveEnabled;
 
+	
 	public String addRoutingDetails(String orderString) throws IOException {
 
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -54,6 +55,7 @@ public class OrderService {
 		return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(orderNode);
 	}
 
+
 	private void addOrderLineReferenceField(JsonNode orderLineNode, String refFieldName, String refFieldValue) {
 		JsonNode refFieldListNode = orderLineNode.get("ReferenceFieldList");
 
@@ -66,23 +68,22 @@ public class OrderService {
 		((ObjectNode) orderLineNode).set("ReferenceFieldList", refFieldListNode);
 	}
 
+	
 	private boolean isVdcExclusive(ItemAvailability itemAvailability) {
-		int supplierGroupQuantity = itemAvailability.getSupplierGroupQuantity();
 		int storeGroupQuantity = itemAvailability.getStoreGroupQuantity();
+		int supplierGroupQuantity = itemAvailability.getSupplierGroupQuantity();
+		int dcGroupQuantity = itemAvailability.getDcGroupQuantity();
+		int specialOrderFlag = itemAvailability.getSpecialOrderFlag();
 
-		if (supplierGroupQuantity > storeGroupQuantity) {
-			return true;
-		}
-		return false;
+		return (supplierGroupQuantity > 0 && storeGroupQuantity <= 0 && dcGroupQuantity <= 0 && specialOrderFlag == 0);
 	}
 
+	
 	private boolean isDcExclusive(ItemAvailability itemAvailability) {
-		int dcGroupQuantity = itemAvailability.getDcGroupQuantity();
 		int storeGroupQuantity = itemAvailability.getStoreGroupQuantity();
+		int supplierGroupQuantity = itemAvailability.getSupplierGroupQuantity();
+		int dcGroupQuantity = itemAvailability.getDcGroupQuantity();
 
-		if (dcGroupQuantity > storeGroupQuantity) {
-			return true;
-		}
-		return false;
+		return (dcGroupQuantity > 0 && storeGroupQuantity <= 0 && supplierGroupQuantity <= 0);
 	}
 }
