@@ -57,15 +57,15 @@ public class OrderService {
 
 
 	private void addOrderLineReferenceField(JsonNode orderLineNode, String refFieldName, String refFieldValue) {
-		JsonNode refFieldListNode = orderLineNode.get("ReferenceFieldList");
+		JsonNode lineRefFieldsNode = orderLineNode.get("LineReferenceFields");
 
-		if (refFieldListNode == null) {
+		if (lineRefFieldsNode == null) {
 			ObjectMapper mapper = new ObjectMapper();
-			refFieldListNode = mapper.createObjectNode();
+			lineRefFieldsNode = mapper.createObjectNode();
 		}
 
-		((ObjectNode) refFieldListNode).put(refFieldName, refFieldValue);
-		((ObjectNode) orderLineNode).set("ReferenceFieldList", refFieldListNode);
+		((ObjectNode) lineRefFieldsNode).put(refFieldName, refFieldValue);
+		((ObjectNode) orderLineNode).set("LineReferenceFields", lineRefFieldsNode);
 	}
 
 	
@@ -75,7 +75,11 @@ public class OrderService {
 		int dcGroupQuantity = itemAvailability.getDcGroupQuantity();
 		int specialOrderFlag = itemAvailability.getSpecialOrderFlag();
 
-		return (supplierGroupQuantity > 0 && storeGroupQuantity <= 0 && dcGroupQuantity <= 0 && specialOrderFlag == 0);
+		return (supplierGroupQuantity > 0 
+				&& storeGroupQuantity <= 0 
+				&& dcGroupQuantity <= 0 
+				&& specialOrderFlag != 1
+				);
 	}
 
 	
@@ -84,6 +88,9 @@ public class OrderService {
 		int supplierGroupQuantity = itemAvailability.getSupplierGroupQuantity();
 		int dcGroupQuantity = itemAvailability.getDcGroupQuantity();
 
-		return (dcGroupQuantity > 0 && storeGroupQuantity <= 0 && supplierGroupQuantity <= 0);
+		return (dcGroupQuantity > 0 
+				&& storeGroupQuantity <= 0 
+				&& supplierGroupQuantity <= 0
+				);
 	}
 }
