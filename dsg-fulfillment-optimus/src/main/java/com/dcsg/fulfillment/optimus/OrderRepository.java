@@ -17,7 +17,7 @@ public class OrderRepository {
 	public ItemAvailability getItemAvailability(String itemName) {
 
 		String sql =	"select \n" + 
-							"ia6.store_group_quantity, ia6.supplier_group_quantity, ia6.dc_group_quantity, ic.ref_field7 \n" + 
+							"ia6.store_group_quantity, ia6.supplier_group_quantity, ia6.dc_group_quantity \n" + 
 						"from i_availability_6 ia6 \n" + 
 						"join item_cbo ic on ia6.item_id = ic.item_id \n" + 
 						"where item_name = ?";
@@ -42,7 +42,6 @@ class ItemAvailabilityRowMapper implements RowMapper<ItemAvailability> {
 		itemAvailability.setStoreGroupQuantity(rs.getInt("store_group_quantity"));
 		itemAvailability.setSupplierGroupQuantity(rs.getInt("supplier_group_quantity"));
 		itemAvailability.setDcGroupQuantity(rs.getInt("dc_group_quantity"));
-		itemAvailability.setSpecialOrderFlag(rs.getInt("ref_field7"));
 		return itemAvailability;
 	}
 }

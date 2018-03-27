@@ -21,7 +21,7 @@ public class OrderService {
 	@Value("${optimus.add-routing-detail.check-if-dc-exclusive.enabled}")
 	private boolean checkIfDcExclusiveEnabled;
 
-	
+
 	public String addRoutingDetails(String orderString) throws IOException {
 
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -68,17 +68,15 @@ public class OrderService {
 		((ObjectNode) orderLineNode).set("LineReferenceFields", lineRefFieldsNode);
 	}
 
-	
+
 	private boolean isVdcExclusive(ItemAvailability itemAvailability) {
 		int storeGroupQuantity = itemAvailability.getStoreGroupQuantity();
 		int supplierGroupQuantity = itemAvailability.getSupplierGroupQuantity();
 		int dcGroupQuantity = itemAvailability.getDcGroupQuantity();
-		int specialOrderFlag = itemAvailability.getSpecialOrderFlag();
 
 		return (supplierGroupQuantity > 0 
 				&& storeGroupQuantity <= 0 
 				&& dcGroupQuantity <= 0 
-				&& specialOrderFlag != 1
 				);
 	}
 
