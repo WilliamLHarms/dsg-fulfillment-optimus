@@ -108,5 +108,7 @@ gradle-app.setting
 #####################################################
 *.yml
 *.jks
-gradlew*
+gradlew
+gradlew.bat
+settings.gradle
 
