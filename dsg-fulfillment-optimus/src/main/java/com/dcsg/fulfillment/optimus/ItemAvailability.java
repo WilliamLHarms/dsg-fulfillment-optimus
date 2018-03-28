@@ -5,7 +5,6 @@ public class ItemAvailability {
 	private int storeGroupQuantity;
 	private int supplierGroupQuantity;
 	private int dcGroupQuantity;
-	private int specialOrderFlag;
 
 	public int getStoreGroupQuantity() {
 		return storeGroupQuantity;
@@ -29,13 +28,5 @@ public class ItemAvailability {
 
 	public void setDcGroupQuantity(int dcGroupQuantity) {
 		this.dcGroupQuantity = dcGroupQuantity;
-	}
-	
-	public int getSpecialOrderFlag() {
-		return specialOrderFlag;
-	}
-	
-	public void setSpecialOrderFlag(int specialOrderFlag) {
-		this.specialOrderFlag = specialOrderFlag;
 	}
 }
