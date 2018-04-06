@@ -52,7 +52,7 @@ public class ItemAvailability {
 	}
 	
 	public String getItemSubDepartment() {
-		return itemDepartment;
+		return itemSubDepartment;
 	}
 	
 	public void setItemClass(String itemClass) {
